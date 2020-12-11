@@ -48,3 +48,54 @@ DOS interrupt int 21/4Ch is EXIT - TERMINATE WITH RETURN CODE, the content of al
 mov ah,4ch
 int 21h
 ```
+
+### Write a char
+
+Write character to standard output. entry: DL = character to write, after execution AL = DL.
+
+```asm
+mov ah,2
+mov dl,'a'
+int 21h
+```
+
+### Char input withou echo
+
+Character input without echo to AL. if there is no character in the keyboard buffer, the function waits until any key is pressed.
+
+```asm
+mov ah,7
+int 21h
+```
+
+### Write a string
+
+Output of a string at DS:DX. String must be terminated by '$'.
+
+```asm
+dts segment
+    msg db "hello world$"
+dts ends
+
+" code segment
+mov dx, offset msg
+mov ah,9
+int 21h
+```
+
+### String input
+
+Input of a string to DS:DX, fist byte is buffer size, second byte is number of chars actually read. this function does not add '$' in the end of string.
+
+```asm
+dts segment
+    buffer db 80 dup(?)
+    max db 80
+    len db ?
+dts ends
+
+" code segment
+mov dx,offset max
+mov ah, 0ah
+int 21h
+```
