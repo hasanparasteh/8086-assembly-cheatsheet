@@ -65,6 +65,8 @@ int 21h
 
 Character input without echo to AL. if there is no character in the keyboard buffer, the function waits until any key is pressed.
 
+note: Also there is a similar function that our teacher used once & has the same behavior of this function! It's `08h`. This interrupt moves the char into `AL` like the below example.
+
 ```asm
 mov ah,7
 int 21h
@@ -253,10 +255,11 @@ Defining a proc as FAR tells the assembler that all Calls to that proc must give
 - FAR: Defines a far procedure; called with ECALL. You should specify FAR if the procedure is called from a different 64KByte segment.
   you should use `call` and the proc name to run the proc...
 
+**Diffrence between procs**: Near calls and returns transfer control between procedures in the same code segment. Far calls and returns pass control between different segments.
+
 note:Near contains a 16-bit offset. For calls it will save the IP only. Far contains a segment and a 16-bit offset. For calls it will save IP and CS.
 
 note: PROC specifies that the procedure is a standard procedure function.
-
 Procedures must include a RET instruction which the assembler converts into one of the following machine return instructions:
 
 - RETS: Return from far procedure.
@@ -272,8 +275,9 @@ main proc far
     ; main code goes here
 main endp
 cds ends
+
 procsg segment
-assume cs:procsg
+    assume cs:procsg
 example proc far
     ; proc far example
 example endp
@@ -281,5 +285,3 @@ procsg ends
 end main
 
 ```
-
-## Diffrence between procs
