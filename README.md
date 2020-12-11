@@ -99,3 +99,12 @@ mov dx,offset max
 mov ah, 0ah
 int 21h
 ```
+
+### Add dollar sign at end of string
+
+We should use pointers to do this. Also the correct way is to use bx but there is a trick to do it.
+
+```asm
+mov al,'$'
+mov byte ptr[len+1],al
+```
