@@ -224,3 +224,21 @@ mov ah,3eh
 mov bx, handle
 int 21h
 ```
+
+### Move the buffer/pointer in file
+
+```asm
+mov al,0
+mov bx,handle
+mov cx,0
+mov dx,7
+mov ah,42h
+int 21h
+```
+
+## Get data len
+
+```asm
+data db "hello files!"
+data_size=$-offset data
+```
