@@ -16,7 +16,7 @@ After that we have to define data segment:
 
 ```asm
 dts segment
-    " variables goes here...
+    ; variables goes here...
 dts ends
 ```
 
@@ -38,7 +38,9 @@ cds ends
 end main
 ```
 
-## Intrupts
+# Intrupts
+
+## Strings & Char
 
 ### End Program
 
@@ -77,7 +79,7 @@ dts segment
     msg db "hello world$"
 dts ends
 
-" code segment
+; code segment
 mov dx, offset msg
 mov ah,9
 int 21h
@@ -94,7 +96,7 @@ dts segment
     len db ?
 dts ends
 
-" code segment
+; code segment
 mov dx,offset max
 mov ah, 0ah
 int 21h
@@ -107,4 +109,120 @@ We should use pointers to do this. Also the correct way is to use bx but there i
 ```asm
 mov al,'$'
 mov byte ptr[len+1],al
+```
+
+## Files Manipulation
+
+### Create a file
+
+we should use `3ch` as the function to create files. we should define `cx` to determine what type of manipulation we want.
+
+```asm
+mov cx, 0 ; normal - no attributes.
+mov cx, 1 ; read-only.
+mov cx, 2 ; hidden.
+mov cx, 4 ; system
+mov cx, 7 ; hidden, system and read-only!
+mov cx, 16 ; archive
+```
+
+There are some flags to determine file creation was ok or not: `CF clear if successful, AX = file handle. CF set on error AX = error code.`
+
+Example:
+
+```asm
+dts segment
+    filename db "data.txt", 0
+    handle dw ?
+dts ends
+
+; code segment
+mov ah,3ch
+mov cx,0
+mov dx, offset filename
+int 21h
+
+jc error
+mov handle, ax
+jmp ok
+
+error:
+    ; error goes here
+ok:
+    ; do stuff
+```
+
+### Open a file
+
+we should use `AL` to determine access and sharing modes:
+
+```asm
+mov al, 0 ; read
+mov al, 1 ; write
+mov al, 2 ; read/write
+```
+
+note 1: file pointer is set to start of file.
+note 2: file must exist.
+Example:
+
+```asm
+mov al,2
+mov dx, offset filename
+mov ah, 3dh
+int 21h
+
+jc error
+mov handle,ax
+jmk ok
+
+error:
+    ; error goes here
+
+ok:
+    ; do stuff
+```
+
+### Write file when it's openned
+
+It should goes into ok label of `3ch` or `3dh`.
+
+```asm
+dts segment
+    filename db "data.txt", 0
+    handle dw ?
+
+    max db 80
+    len db ?
+    msg db 80 dup(?)
+dts ends
+
+dts ends
+mov ah,40h
+mov bx,handle
+mov cx,80
+mov dx,offset msg
+int 21h
+```
+
+### Read from file when it's openned
+
+```asm
+mov ah,3fh
+mov bx,handle
+mov cx,80 ; number of bytes to read
+int 21h
+
+; it automatically move the data into dx
+; so if you wanna print it just type the below codes
+mov ah,9
+int 21h
+```
+
+### Close a file
+
+```asm
+mov ah,3eh
+mov bx, handle
+int 21h
 ```
