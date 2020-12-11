@@ -120,10 +120,6 @@ we should use `3ch` as the function to create files. we should define `cx` to de
 ```asm
 mov cx, 0 ; normal - no attributes.
 mov cx, 1 ; read-only.
-mov cx, 2 ; hidden.
-mov cx, 4 ; system
-mov cx, 7 ; hidden, system and read-only!
-mov cx, 16 ; archive
 ```
 
 There are some flags to determine file creation was ok or not: `CF clear if successful, AX = file handle. CF set on error AX = error code.`
@@ -186,6 +182,8 @@ ok:
 ### Write file when it's openned
 
 It should goes into ok label of `3ch` or `3dh`.
+
+note: if CX is zero, no data is written, and the file is truncated or extended to the current position data is written beginning at the current file position, and the file position is updated after a successful write the usual cause for AX < CX on return is a full disk.
 
 ```asm
 dts segment
