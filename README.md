@@ -1,6 +1,14 @@
 # Assembly Cheatsheet
 
-It's a great cheat sheet to helps you remember stuff in 8086 assembly programming.
+It's a great cheat sheet to helps you remember stuff in 8086 assembly programming. I used it to pass my assembly exam :)
+
+#### Content list
+
+- [Code Structure](#basic-structure)
+- [Intrupts](#intrupts)
+  - [Working with strings](#strings--char)
+  - [Working with files](#files-manipulation)
+- [Procedures](#proc-far--near)
 
 ## Basic Structure
 
