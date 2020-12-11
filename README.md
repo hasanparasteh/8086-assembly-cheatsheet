@@ -236,9 +236,50 @@ mov ah,42h
 int 21h
 ```
 
-## Get data len
+### Get data len
 
 ```asm
 data db "hello files!"
 data_size=$-offset data
 ```
+
+# Proc: Far & Near
+
+procedure is near or far and must be one of the following:
+Defining a proc as FAR tells the assembler that all Calls to that proc must give both a segment and a 16-bit offset. The upshot of this is that the FAR Call will save both IP and CS. There are two variants of RET: RETN and RETF. One will pull off IP and the other will pull of BOTH IP AND CS. Go figure which one, okay?
+
+- none: The type defaults to NEAR.
+- NEAR: Defines a near procedure; called with LCALL or ACALL.
+- FAR: Defines a far procedure; called with ECALL. You should specify FAR if the procedure is called from a different 64KByte segment.
+  you should use `call` and the proc name to run the proc...
+
+note:Near contains a 16-bit offset. For calls it will save the IP only. Far contains a segment and a 16-bit offset. For calls it will save IP and CS.
+
+note: PROC specifies that the procedure is a standard procedure function.
+
+Procedures must include a RET instruction which the assembler converts into one of the following machine return instructions:
+
+- RETS: Return from far procedure.
+- RETI: Return from interrupt procedure.
+- RET: Return from near procedure.
+
+Here it's a 2 proc far in a program example:
+
+```asm
+cds segment
+    assume cs:cds,ds:dts,ss:stk
+main proc far
+    ; main code goes here
+main endp
+cds ends
+procsg segment
+assume cs:procsg
+example proc far
+    ; proc far example
+example endp
+procsg ends
+end main
+
+```
+
+## Diffrence between procs
