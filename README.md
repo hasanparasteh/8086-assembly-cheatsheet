@@ -69,7 +69,7 @@ mov dl,'a'
 int 21h
 ```
 
-### Char input withou echo
+### Char input without echo
 
 Character input without echo to AL. if there is no character in the keyboard buffer, the function waits until any key is pressed.
 
@@ -112,7 +112,7 @@ mov ah, 0ah
 int 21h
 ```
 
-### Add dollar sign at end of string
+### Add dollar sign at end of string (Not Correct)
 
 We should use pointers to do this. Also the correct way is to use bx but there is a trick to do it.
 
@@ -292,4 +292,16 @@ example endp
 procsg ends
 end main
 
+```
+
+## Working with time
+
+we use `2ch` as the function to get time from DOS. It make DX, CX as the time now.
+`CH = hour CL = minute DH = second DL = milliseconds`
+
+Example:
+
+```asm
+mov ah, 2ch
+int 21h
 ```
