@@ -9,6 +9,7 @@ It's a great cheat sheet to helps you remember stuff in 8086 assembly programmin
   - [Working with strings](#strings--char)
   - [Working with files](#files-manipulation)
 - [Procedures](#proc-far--near)
+- [Time](#working-with-time)
 
 ## Basic Structure
 
