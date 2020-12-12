@@ -25,7 +25,7 @@ print:
     int 21h
 
     mov bl, dh ; mov the second into bl
-    add bl, 5
+    add bl, 5  ; seconds to sleep
     cmp bl, 59
     jng sleep
     sub bl, 60
