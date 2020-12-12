@@ -13,7 +13,7 @@ main proc far
     mov ax, seg dts
     mov ds, ax
 
-    mov si, offset time + 15                          ; moves the pointer after first color
+    mov si, offset time + 15                          ; moves the pointer after first colon
     mov ah,2ch                                        ; reads time
     int 21h
 
