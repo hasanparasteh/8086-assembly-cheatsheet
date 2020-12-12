@@ -10,16 +10,16 @@ M9 MACRO payam
     int 21h
 ENDM
 
-stk segment
+stk segment stack 'stack'
     dw 32 dup(?)
 stk ends
 
 dts segment
-    msg db 'Please enter max 80 char : ', 10, 13, '$'
+    msg db "Please enter max 80 char : ", 10, 13, "$"
     max db 80
     len db ?
-    buffer db 80 dup("$")
-    free db 10, 13
+    buffer db 80 dup(?)
+    space_buffer db 10, 13, "$"
 dts ends
 
 cds segment
@@ -29,24 +29,29 @@ main proc far
     mov ax, seg dts
     mov ds, ax
 
+
     M9 msg
-    M0A max
+    M0A max   ; we should add $ manually after our string
 
-    mov bl, 6 ; masalan akhar shomare daneshjoyi 6 hast
-l1:
-    cmp bl, 2
-    je l2
-    M9 free
-    sub bl, 1
-    cmp bl, 0
-    jne l1
-l2:
+    mov cx, 6 ; code daneshjoyi
+
+spaces:
+    M9 space_buffer
+    dec cx
+
+    cmp cx, 4
+    je print
+    cmp cx, 0
+    jz ending
+
+print:
     M9 buffer
-    ret
+    jmp spaces
 
-
+ending:
     mov ah, 4ch
     int 21h
+
 main endp
 cds ends
 end main
