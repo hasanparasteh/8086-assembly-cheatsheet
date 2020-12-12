@@ -1,4 +1,4 @@
-; shows time in a string
+; shows time in string using si pointer and 2ch function
 stk segment stack 'stack'
     dw 32 dup(?)
 stk ends
