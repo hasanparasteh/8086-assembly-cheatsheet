@@ -20,6 +20,7 @@ print:
     mov dl, byte ptr[si]
     int 21h
     inc si     ; goes for next char
+    dec bh     ; decrement the counter
 
     mov ah,2ch ; reads time
     int 21h
@@ -28,7 +29,7 @@ print:
     add bl, 5  ; seconds to sleep
     cmp bl, 59
     jng sleep
-    sub bl, 60
+    sub bl, 59
 sleep:
     int 21h
     cmp bl,dh
