@@ -20,6 +20,7 @@ print:
     mov dl, byte ptr[si]
     int 21h
     inc si     ; goes for next char
+    dec bh     ; decrement the counter
 
     mov ah,2ch ; reads time
     int 21h
