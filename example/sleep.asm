@@ -28,7 +28,7 @@ print:
     add bl, 5  ; seconds to sleep
     cmp bl, 59
     jng sleep
-    sub bl, 60
+    sub bl, 59
 sleep:
     int 21h
     cmp bl,dh
