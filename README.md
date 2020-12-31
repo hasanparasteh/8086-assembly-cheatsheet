@@ -10,6 +10,8 @@ It's a great cheat sheet to helps you remember stuff in 8086 assembly programmin
   - [Working with files](#files-manipulation)
 - [Procedures](#proc-far--near)
 - [Time](#working-with-time)
+- [Graphics](#working-with-graphic)
+  - [Drawing a pixel](#write-graphics-pixel)
 
 ## Basic Structure
 
