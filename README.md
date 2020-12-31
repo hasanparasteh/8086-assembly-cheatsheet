@@ -306,3 +306,20 @@ Example:
 mov ah, 2ch
 int 21h
 ```
+
+## Working with graphic
+
+### Write graphics pixel
+
+In order to draw a pixel you have to use `int 10`! To draw a pixel in screen you have to set graphics video mode.
+
+AL = Color, BH = Page Number, CX = x, DX = y
+
+```asm
+mov ah, 0Ch
+mov al, 1
+mov bh, 0
+mov dx, 100
+mov cx, 160
+int 10h
+```
